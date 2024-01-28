@@ -24,16 +24,12 @@ Upload sender and reciever code on the 2 arduino's
 
 ### 10 DOF IMU
 
-![10 dof imu pinout](./10DOF-pinout.webp)
-
 - **SDA** (Serial Data)
 - **SCL** (Serial Clock)
 - **INT** (Interrupt) is a digital interrupt output
 - **FSYNC** is a frame sync signal
 
 ### L76K GPS
-
-![L76K GPS pinout](./L76K-pinout.jpg)
 
 - **PPS** (Pulse per second) powers a led wich will blink and indicate that GPS is working
 - **RX** (UART communication)
@@ -57,8 +53,6 @@ Fix Quality:
 [more about nmea sentences](https://aprs.gids.nl/nmea/)
 
 ### NRF24L01+
-
-![nrlf24l01+ pinout](./NRF24L01-pinout.webp)
 
 - **CE** (Chip Enable) is an active-high pin. When enabled, the nRF24L01 will either transmit or receive, depending on the mode.
 - **CSN** (Chip Select Not) is an active-low pin that is typically held HIGH. When this pin goes low, the nRF24L01 begins listening for data on its SPI port and processes it accordingly.
