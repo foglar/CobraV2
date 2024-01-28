@@ -1,14 +1,30 @@
 # CobraV2
 
+## Installation
+
+```bash
+git clone https://www.github.com/foglar/cobraV2.git
+```
+
+```bash
+# Building serial read code yourself
+cd serial_read
+go build main.go
+```
+
+Upload sender and reciever code on the 2 arduino's
+
 ## Overview
 
-`reciever_module` - folder with code for reciver which will send data to the pc
-`sender_module` - folder with code for sender, which transmit data to the reciever and save it on the micro sd card
-`serial_read` - read serial input and save it
+`reciever_module/` - folder with code for reciver which will send data to the pc
+`sender_module/` - folder with code for sender, which transmit data to the reciever and save it on the micro sd card
+`serial_read/` - read serial input and save it
 
 ## Modules
 
 ### 10 DOF IMU
+
+![10 dof imu pinout](./10DOF-pinout.webp)
 
 - **SDA** (Serial Data)
 - **SCL** (Serial Clock)
@@ -17,11 +33,32 @@
 
 ### L76K GPS
 
+![L76K GPS pinout](./L76K-pinout.jpg)
+
 - **PPS** (Pulse per second) powers a led wich will blink and indicate that GPS is working
 - **RX** (UART communication)
 - **TX** (UART communication)
 
+#### NMEA Sentence
+
+$GPGAA,HHMMSS.SS,llll.ll,a,yyyyy.yy,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx
+
+| Sentence Identifier | Time | Latitude | Longtitude | Fix Quality | Number of Satellites | Horizontal Dilution of Precision | Altitude | Height of geoid above WGS84 ellipsoid | Time since last DGPS update | DGPS reference station id | Checksum |
+| ------ | --------- | --------- | ---------- | - | -- | --- | ----- | ----- | --- | ---- | --- |
+| $GPGAA | HHMMSS.SS | llll.ll a | yyyyy.yy a | x | xx | x.x | x.x M | x.x M | x.x | xxxx | *hh |
+| $GPGAA | 170834 | 4124.8963, N | 08151.6838, W | 1 | 05 | 1.5 | 280.2, M | -34.0, M | blank | blank | *75 |
+
+Fix Quality:
+
+- 0 = Invalid
+- 1 = GPS fix
+- 2 = DGPS fix
+
+[more about nmea sentences](https://aprs.gids.nl/nmea/)
+
 ### NRF24L01+
+
+![nrlf24l01+ pinout](./NRF24L01-pinout.webp)
 
 - **CE** (Chip Enable) is an active-high pin. When enabled, the nRF24L01 will either transmit or receive, depending on the mode.
 - **CSN** (Chip Select Not) is an active-low pin that is typically held HIGH. When this pin goes low, the nRF24L01 begins listening for data on its SPI port and processes it accordingly.
