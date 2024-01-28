@@ -5,6 +5,7 @@ import (
 	"github.com/tarm/serial"
 	"log"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -36,7 +37,12 @@ func baudrateInput() int {
 
 	fmt.Print("Enter baudrate (for example - '9600'): ")
 	fmt.Scanln(&s_baudrate)
+	baudrate = baudrateCheck(s_baudrate)
+	return baudrate
+}
 
+func baudrateCheck(s_baudrate string) int {
+	var baudrate int
 	switch s_baudrate {
 	case "4800":
 		baudrate = 4800
@@ -48,6 +54,7 @@ func baudrateInput() int {
 		baudrate = 9600
 	}
 	return baudrate
+
 }
 
 func UserInput() (string, int) {
@@ -62,8 +69,48 @@ func getTime() string {
 }
 
 func main() {
-	// User input
-	port, baudrate := UserInput()
+	args := os.Args[1:]
+	var port string
+	var baudrate int
+
+	if len(args) == 0 {
+		port, baudrate = UserInput()
+	} else {
+		i := 0
+		for i < len(args) {
+			if args[i] == "-p" && i+1 < len(args) {
+				port = args[i+1]
+			}
+			if args[i] == "-h" || args[i] == "--help" {
+				fmt.Println("-h, --help - prints this message")
+				fmt.Println("-p [port] - listens on port")
+				fmt.Println("-b [baudrate] - sets the baudrate")
+				fmt.Println("-d - runs the script with default values")
+				os.Exit(0)
+
+			}
+			if args[i] == "-b" && i+1 < len(args) {
+				var err error
+				baudrate, err = strconv.Atoi(args[i+1])
+				if err != nil {
+					fmt.Println("Invalid baudrate")
+					os.Exit(1)
+				}
+			}
+			if args[i] == "-d" {
+				port = "/dev/ACM0"
+				baudrate = 9600
+			}
+			i++
+		}
+
+		if port == "" {
+			port = portInput()
+		}
+		if baudrate == 0 {
+			baudrate = baudrateInput()
+		}
+	}
 
 	// Listen on port
 	fmt.Printf("Listening on port %s with baudrate %d:\n", port, baudrate)
