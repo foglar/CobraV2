@@ -103,8 +103,8 @@ func main() {
 			}
 			i++
 		}
-
-		if port == "" {
+		_, err := os.Stat(port)
+		if port == "" || os.IsNotExist(err) {
 			port = portInput()
 		}
 		if baudrate == 0 {

@@ -1,14 +1,12 @@
 # CobraV2
 
-## Installation
+## Installation and compilation
 
 ```bash
 git clone https://www.github.com/foglar/cobraV2.git
-```
+cd cobraV2/serial_read
 
-```bash
 # Building serial read code yourself
-cd serial_read
 go build main.go
 ```
 
