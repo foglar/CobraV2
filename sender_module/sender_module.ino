@@ -6,7 +6,7 @@
 
 
 bool gbSenserConnectState = false;
-//create an RF24 object
+//create an RF24 objetct
 RF24 radio(9, 8);                 // CE, CSN
 const byte address[6] = "00001";  //address through which two modules communicate
 
@@ -24,19 +24,19 @@ void setup() {
   imuInit(&enMotionSensorType, &enPressureType);
   if(IMU_EN_SENSOR_TYPE_ICM20948 == enMotionSensorType)
   {
-    Serial.println("Motion sersor is ICM-20948");
+    Serial.println("# Motion sersor is ICM-20948");
   }
   else
   {
-    Serial.println("Motion sersor NULL");
+    Serial.println("# Motion sersor NULL");
   }
   if(IMU_EN_SENSOR_TYPE_BMP280 == enPressureType)
   {
-    Serial.println("Pressure sersor is BMP280");
+    Serial.println("# Pressure sersor is BMP280");
   }
   else
   {
-    Serial.println("Pressure sersor NULL");
+    Serial.println("# Pressure sersor NULL");
   }
   delay(1000);
 }

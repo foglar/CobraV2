@@ -7,7 +7,7 @@ void setup() {
   while (!Serial)
     ;
   Serial.begin(9600);
-  Serial.println("Reciver init");
+  Serial.println("# Reciever Init");
   radio.begin();
   radio.openReadingPipe(0, address);  //set the address
   radio.startListening();             //Set module as receiver
