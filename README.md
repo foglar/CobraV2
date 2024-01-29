@@ -7,7 +7,7 @@ git clone https://www.github.com/foglar/cobraV2.git
 cd cobraV2/serial_read
 
 # Building serial read code yourself
-go build main.go
+go build .
 ```
 
 Upload sender and reciever code on the 2 arduino's
@@ -103,5 +103,5 @@ Datasheets, documentation and sources
 - [Waveshare L76K GPS Module - Demo code](https://files.waveshare.com/upload/9/94/L76K_GPS_Module_Arduino.zip)
 - [NRF24L01+ PA/LNA - Arduino guide](https://lastminuteengineers.com/nrf24l01-arduino-wireless-communication/)
 - [NRF24L01+ Guide - Guide](https://navody.dratek.cz/navody-k-produktum/arduino-wifi-modul-nrf24l01.html)
-- [NRF24L01+ PA/LNA - Datasheet](nrf24lo1-datasheet.pdf)
+- [NRF24L01+ PA/LNA - Datasheet](doc/nrf24lo1-datasheet.pdf)
 - [NRF24L01+ PA/LNA - Demo code](https://img.gme.cz/files/eshop_data/eshop_data/10/775-034/prg.775-034.1.zip)
