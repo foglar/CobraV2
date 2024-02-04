@@ -73,6 +73,7 @@ func main() {
 	var port string
 	var baudrate int
 
+	// parsing command line arguments
 	if len(args) == 0 {
 		port, baudrate = UserInput()
 	} else {

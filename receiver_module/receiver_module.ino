@@ -15,7 +15,7 @@ void setup() {
 void loop() {
   //Read the data if available in buffer
   if (radio.available()) {
-    char text[32] = { 0 };
+    char text[64] = { 0 };
     radio.read(&text, sizeof(text));
     Serial.println(text);
   }

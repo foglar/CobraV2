@@ -50,10 +50,42 @@ void loop() {
   
   imuDataGet( &stAngles, &stGyroRawData, &stAccelRawData, &stMagnRawData);
   pressSensorDataGet(&s32TemperatureVal, &s32PressureVal, &s32AltitudeVal);
-  char result[8];
+  
+  char temp_str[8], pressure_str[8], altitude_str[8];
+  char roll_str[8], pitch_str[8], yaw_str[8];
+
   float temperature = (s32TemperatureVal / 100);
-  dtostrf(temperature, 6, 2, result);
-  //Send message to receiver
-  radio.write(&result, sizeof(result));
-  //delay(1000);
+  float pressure = (s32PressureVal / 100);
+  float altitude = (s32AltitudeVal / 100);
+
+  float roll = stAngles.fRoll;
+  float pitch = stAngles.fPitch;
+  float yaw = stAngles.fYaw;
+
+  dtostrf(temperature, 6, 2, temp_str);
+  dtostrf(pressure, 6, 2, pressure_str);
+  dtostrf(altitude, 6, 2, altitude_str);
+
+  dtostrf(roll, 6, 2, roll_str);
+  dtostrf(pitch, 6, 2, pitch_str);
+  dtostrf(yaw, 6, 2, yaw_str);
+
+  //Serial.println(roll, pitch, yaw);
+  //Serial.println(temperature, pressure, altitude);
+  
+  char msg[64];
+
+  String ctemp = ("$1;"+String(temp_str)+"*");
+  String cpressure = ("$2;"+String(pressure_str)+"*");
+  String caltitude = ("$3;"+String(altitude_str)+"*");
+  String croll = ("$4;"+String(roll_str)+"*");
+  String cpitch = ("$5;"+String(pitch_str)+"*");
+  String cyaw = ("$6;"+String(yaw_str) + "*");
+
+  ctemp.toCharArray(msg, sizeof(msg));
+  radio.write(&msg, sizeof(msg));
+  cpressure.toCharArray(msg, sizeof(msg));
+  radio.write(&msg, sizeof(msg));
+  
+  delay(200);
 }
