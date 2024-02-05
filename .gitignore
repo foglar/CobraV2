@@ -1,12 +1,3 @@
 2024*.txt
 test/*
-
-serial_read/go.mod
-
-serial_read/go.sum
-
 *.exe
-
-monitor/go.sum
-
-monitor/go.mod

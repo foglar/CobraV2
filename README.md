@@ -2,11 +2,28 @@
 
 ## Installation and compilation
 
+### Serial monitor tool
+
 ```bash
 git clone https://www.github.com/foglar/cobraV2.git
 cd cobraV2/serial_read
 
+go get "github.com/tarm/serial"
+
 # Building serial read code yourself
+go build .
+```
+
+### Monitor tool
+
+```bash
+git clone https://www.github.com/foglar/cobraV2.git
+cd cobraV2/monitor
+
+# Installing required packages
+go get "github.com/tarm/serial"
+# go get "github.com/gopxl/pixel/v2"
+
 go build .
 ```
 
@@ -17,6 +34,30 @@ Upload sender and reciever code on the 2 arduino's
 `reciever_module/` - folder with code for reciver which will send data to the pc
 `sender_module/` - folder with code for sender, which transmit data to the reciever and save it on the micro sd card
 `serial_read/` - read serial input and save it
+`monitor` - folder with code for monitor which will recieve data and print them into the gui application
+
+### Arduino Sender Format
+
+- sender sends data via antenna to reciever in this format **$[code of message];[value]\***
+- in future will be added some other values, like gps and so on
+
+| Identifier | Message Code | Value                            | Verificator |
+| ---------- | ------------ | -------------------------------- | ------------|
+| $          | **1**;       | temperature [degrees of Celsius] | *           |
+| $          | **2**;       | pressure                         | *           |
+| $          | **3**;       | altitude                         | *           |
+| $          | **4**;       | roll                             | *           |
+| $          | **5**;       | pitch                            | *           |
+| $          | **6**;       | yaw                              | *           |
+| $          | **7**;       | gyroscope x                      | *           |
+| $          | **8**;       | gyroscope y                      | *           |
+| $          | **9**;       | gyroscope z                      | *           |
+| $          | **10**;      | accelerometer x                  | *           |
+| $          | **11**;      | accelerometer y                  | *           |
+| $          | **12**;      | accelerometer z                  | *           |
+| $          | **13**;      | magnitude x                      | *           |
+| $          | **14**;      | magnitude y                      | *           |
+| $          | **15**;      | magnitude z                      | *           |
 
 ## Modules
 
@@ -91,6 +132,13 @@ Fix Quality:
 | SCK    | 13      | Serial Clock    |
 | MOSI   | 11~     | SPI master out  |
 | MISO   | 12      | SPI master in   |
+
+## Issues / features
+
+- data stops being transmitted after some short time
+- no gui
+- parser should be updated
+- sender code should be updated
 
 ## Sources
 

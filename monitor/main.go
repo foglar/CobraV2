@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	p "foglar/monitor/parse"
 	"foglar/monitor/serial_read"
 	"log"
-	// "foglar/monitor/parse"
 )
 
 func main() {
@@ -16,11 +16,14 @@ func main() {
 
 	defer serialHandler.Close()
 
-	// Read serial data
-	data, err := serialHandler.ReadSerial()
-	if err != nil {
-		log.Fatal(err)
-	}
+	for {
+		// Read serial data
+		data, err := serialHandler.ReadSerial()
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	fmt.Println("Received data:", data)
+		fmt.Println("Received data:", data)
+		fmt.Println(p.Parser(data))
+	}
 }
