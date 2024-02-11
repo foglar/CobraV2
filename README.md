@@ -1,31 +1,52 @@
 # CobraV2
 
+## Table of contents
+
+- [CobraV2](#cobrav2)
+  - [Table of contents](#table-of-contents)
+  - [Installation and compilation](#installation-and-compilation)
+    - [Serial monitor tool](#serial-monitor-tool)
+    - [Monitoring tool](#monitoring-tool)
+  - [Overview](#overview)
+    - [Arduino Sender Format](#arduino-sender-format)
+  - [Modules](#modules)
+    - [10 DOF IMU](#10-dof-imu)
+    - [L76K GPS](#l76k-gps)
+      - [NMEA Sentence](#nmea-sentence)
+    - [NRF24L01+](#nrf24l01)
+  - [Wiring](#wiring)
+    - [10 DOF IMU Sensor](#10-dof-imu-sensor)
+    - [L76K GPS Module](#l76k-gps-module)
+    - [NRF24L01+ Module](#nrf24l01-module)
+  - [Issues / features](#issues--features)
+  - [Sources](#sources)
+
 ## Installation and compilation
 
 ### Serial monitor tool
 
-```bash
+```shell
 git clone https://www.github.com/foglar/cobraV2.git
 cd cobraV2/serial_read
-
-go get "github.com/tarm/serial"
-
-# Building serial read code yourself
 go build .
 ```
 
-### Monitor tool
+> [!TIP]
+> You may have to delete `go.mod` file (if you have other go version) and `go mod init` the project.
+> To install all dependencies you can use `go mod tidy` command or you can mannualy install them by `go get [package]` command.
 
-```bash
+### Monitoring tool
+
+```shell
 git clone https://www.github.com/foglar/cobraV2.git
 cd cobraV2/monitor
-
-# Installing required packages
-go get "github.com/tarm/serial"
-# go get "github.com/gopxl/pixel/v2"
-
 go build .
 ```
+
+> [!IMPORTANT]
+> For cross-compiling you will need to specify a `CC` to compile c-based libraries for pixel2 library.
+> Example command: `CC=x86_64-w64-mingw32-gcc GOOS=windows GOARCH=amd64 CGO_ENABLED=1 go build .`
+> For more information see: [Pixel2 Wiki | Cross Compiling](https://github.com/gopxl/pixel/wiki/%5BWIP%5D-Cross-Compiling)
 
 Upload sender and reciever code on the 2 arduino's
 
@@ -83,13 +104,12 @@ $GPGAA,HHMMSS.SS,llll.ll,a,yyyyy.yy,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx
 | $GPGAA | HHMMSS.SS | llll.ll a | yyyyy.yy a | x | xx | x.x | x.x M | x.x M | x.x | xxxx | *hh |
 | $GPGAA | 170834 | 4124.8963, N | 08151.6838, W | 1 | 05 | 1.5 | 280.2, M | -34.0, M | blank | blank | *75 |
 
-Fix Quality:
-
-- 0 = Invalid
-- 1 = GPS fix
-- 2 = DGPS fix
-
-[more about nmea sentences](https://aprs.gids.nl/nmea/)
+> [!TIP]
+> Fix Quality:
+> 0 = Invalid;
+> 1 = GPS fix;
+> 2 = DGPS fix;
+> [more about nmea sentences](https://aprs.gids.nl/nmea/)
 
 ### NRF24L01+
 
@@ -153,3 +173,4 @@ Datasheets, documentation and sources
 - [NRF24L01+ Guide - Guide](https://navody.dratek.cz/navody-k-produktum/arduino-wifi-modul-nrf24l01.html)
 - [NRF24L01+ PA/LNA - Datasheet](doc/nrf24lo1-datasheet.pdf)
 - [NRF24L01+ PA/LNA - Demo code](https://img.gme.cz/files/eshop_data/eshop_data/10/775-034/prg.775-034.1.zip)
+- [Pixel2 (gui library)](https://github.com/gopxl/pixel)
