@@ -11,11 +11,7 @@ import (
 	"golang.org/x/image/font"
 )
 
-// Declare default font and font size
-const FONT string = "gui/JetBrainsMonoNerdFont-Medium.ttf"
-const SIZE float64 = 36
-
-func LoadFont() (*text.Atlas, error) {
+func LoadFont(FONT string, SIZE float64) (*text.Atlas, error) {
 	face, err := LoadTTF(FONT, SIZE)
 	if err != nil {
 		return nil, err

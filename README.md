@@ -7,7 +7,12 @@
   - [Installation and compilation](#installation-and-compilation)
     - [Serial monitor tool](#serial-monitor-tool)
     - [Monitoring tool](#monitoring-tool)
+    - [Sender and Reciever](#sender-and-reciever)
   - [Overview](#overview)
+    - [Schema](#schema)
+      - [Sender](#sender)
+      - [Reciever](#reciever)
+      - [Master](#master)
     - [Arduino Sender Format](#arduino-sender-format)
   - [Modules](#modules)
     - [10 DOF IMU](#10-dof-imu)
@@ -19,6 +24,8 @@
     - [L76K GPS Module](#l76k-gps-module)
     - [NRF24L01+ Module](#nrf24l01-module)
   - [Issues / features](#issues--features)
+    - [Sender issues](#sender-issues)
+    - [Monitor app issues](#monitor-app-issues)
   - [Sources](#sources)
 
 ## Installation and compilation
@@ -48,14 +55,32 @@ go build .
 > Example command: `CC=x86_64-w64-mingw32-gcc GOOS=windows GOARCH=amd64 CGO_ENABLED=1 go build .`
 > For more information see: [Pixel2 Wiki | Cross Compiling](https://github.com/gopxl/pixel/wiki/%5BWIP%5D-Cross-Compiling)
 
+### Sender and Reciever
+
 Upload sender and reciever code on the 2 arduino's
+
+Required library for antenna: [RF24](https://nrf24.github.io/RF24)
 
 ## Overview
 
-`reciever_module/` - folder with code for reciver which will send data to the pc
-`sender_module/` - folder with code for sender, which transmit data to the reciever and save it on the micro sd card
+`reciever_module/` - folder with code for reciver which will send data to the pc (arduino)
+`sender_module/` - folder with code for sender, which transmit data to the reciever and save it on the micro sd card (arduino)
 `serial_read/` - read serial input and save it
-`monitor` - folder with code for monitor which will recieve data and print them into the gui application
+`monitor` - folder with code for monitor which will recieve data and print them into the gui application (pc)
+
+### Schema
+
+#### Sender
+
+- device (arduino uno, arduino nano or arduino micro...) which recieves data from *[10DOF IMU](#10-dof-imu)* and *[L76K GPS](#l76k-gps)*, then it sends them via *[nrf24l01+](#nrf24l01)* in [sender format](#arduino-sender-format) to [reciever](#reciever)
+
+#### Reciever
+
+- device (arduino uno r4 wifi, arduino uno or arduino nano...) which recieves data from [sender](#sender) via *[nrf24l01+](#nrf24l01)* and then send them through serial line to the [master device](#master) in the [sender format](#arduino-sender-format)
+
+#### Master
+
+- device (pc, notebook, laptop), where the data are processed, parsed, saved and displayed realtime in the application monitor
 
 ### Arduino Sender Format
 
@@ -155,10 +180,20 @@ $GPGAA,HHMMSS.SS,llll.ll,a,yyyyy.yy,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx
 
 ## Issues / features
 
-- data stops being transmitted after some short time
-- no gui
-- parser should be updated
-- sender code should be updated
+### Sender issues
+
+- [ ] data stops being transmitted from sender after some short period time
+
+### Monitor app issues
+
+- [ ] application crash after some period of time
+- [ ] gui is not updating until it recieves serial input
+- [ ] parser should be improved
+- [ ] sender code should be improved
+- [x] gui window
+- [ ] error messages as windows not terminal
+- [ ] improve readability of code
+- [ ] serial monitor setup port and baudrate
 
 ## Sources
 
@@ -173,4 +208,4 @@ Datasheets, documentation and sources
 - [NRF24L01+ Guide - Guide](https://navody.dratek.cz/navody-k-produktum/arduino-wifi-modul-nrf24l01.html)
 - [NRF24L01+ PA/LNA - Datasheet](doc/nrf24lo1-datasheet.pdf)
 - [NRF24L01+ PA/LNA - Demo code](https://img.gme.cz/files/eshop_data/eshop_data/10/775-034/prg.775-034.1.zip)
-- [Pixel2 (gui library)](https://github.com/gopxl/pixel)
+- [Pixel2 (go gui library) - Github repository](https://github.com/gopxl/pixel)
