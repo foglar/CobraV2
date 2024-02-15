@@ -13,13 +13,20 @@ import (
 	"golang.org/x/image/colornames"
 )
 
+const (
+	LOG_FONT  = "gui/JetBrainsMonoNerdFont-Medium.ttf"
+	INFO_FONT = "gui/JetBrainsMonoNerdFont-Medium.ttf"
+
+	LOG_SIZE  = 12
+	INFO_SIZE = 24
+)
+
+var (
+	LOG_POSITION  = [2]float64{800, 10}
+	INFO_POSITION = [2]float64{100, 740}
+)
+
 func run() {
-	const LOG_FONT string = "gui/JetBrainsMonoNerdFont-Medium.ttf"
-	const LOG_SIZE float64 = 12
-
-	const INFO_FONT string = "gui/JetBrainsMonoNerdFont-Medium.ttf"
-	const INFO_SIZE float64 = 24
-
 	// Initialize serial connection
 	serialHandler, err := serial_read.NewSerialHandler()
 	if err != nil {
@@ -49,8 +56,9 @@ func run() {
 		panic(err)
 	}
 
-	logging_serial := text.New(pixel.V(800, 10), log_atlas)
-	temperature := text.New(pixel.V(100, 740), info_atlas)
+	// Text
+	logging_serial := text.New(pixel.V(LOG_POSITION[0], LOG_POSITION[1]), log_atlas)
+	temperature := text.New(pixel.V(INFO_POSITION[0], INFO_POSITION[1]), info_atlas)
 
 	var temperature_gui string
 
