@@ -182,7 +182,7 @@ $GPGAA,HHMMSS.SS,llll.ll,a,yyyyy.yy,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx
 
 ### Sender issues
 
-- [ ] data stops being transmitted from sender after some short period time
+- [x] data stops being transmitted from sender after some short period time
 
 ### Monitor app issues
 

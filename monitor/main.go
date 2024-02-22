@@ -1,10 +1,8 @@
 package main
 
 import (
-	"log"
-
-	gui "foglar/monitor/gui"
-	p "foglar/monitor/parse"
+	"foglar/monitor/gui"
+	"foglar/monitor/parse"
 	"foglar/monitor/serial_read"
 
 	"github.com/gopxl/pixel"
@@ -30,9 +28,8 @@ func run() {
 	// Initialize serial connection
 	serialHandler, err := serial_read.NewSerialHandler()
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
-
 	defer serialHandler.Close()
 
 	// Create window
@@ -69,11 +66,11 @@ func run() {
 		data, err := serialHandler.ReadSerial()
 		defer serialHandler.Close()
 		if err != nil {
-			log.Fatal(err)
+			panic(err)
 		}
 
 		// Parsing data
-		info := p.Parser(data)
+		info := parse.Parser(data)
 
 		// Clear screen values
 		temperature.Clear()
