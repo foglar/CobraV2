@@ -23,9 +23,8 @@ func portInput() string {
 		_, err := os.Stat(port)
 		if !os.IsNotExist(err) {
 			break
-		} else {
-			fmt.Println("Invalid port")
 		}
+		fmt.Println("Invalid port")
 	}
 
 	return port

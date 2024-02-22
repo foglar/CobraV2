@@ -61,9 +61,10 @@ func inputPort() string {
 
 		if isPort(s_port) == true {
 			break
-		} else {
-			fmt.Println("Error - Invalid Port")
 		}
+
+		fmt.Println("Error - Invalid Port")
+
 	}
 
 	return s_port
@@ -78,9 +79,8 @@ func inputBaudrate() (int, error) {
 
 		if isBaud(s_baud) == true {
 			break
-		} else {
-			fmt.Println("Error - Invalid Baudrate")
 		}
+		fmt.Println("Error - Invalid Baudrate")
 	}
 
 	return strconv.Atoi(s_baud)
@@ -90,9 +90,9 @@ func isPort(port string) bool {
 	_, err := os.Stat(port)
 	if !os.IsNotExist(err) {
 		return true
-	} else {
-		return false
 	}
+	return false
+
 }
 
 func isBaud(baud string) bool {
