@@ -17,8 +17,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Install dependencies
       run: |
-        go get github.com/gopxl/pixel
-        go get github.com/tarm/serial
+        cd monitor && go get github.com/gopxl/pixel && go get github.com/tarm/serial
 
     - name: Set up Go
       uses: actions/setup-go@v4
