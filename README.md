@@ -35,6 +35,8 @@
 ```shell
 git clone https://www.github.com/foglar/cobraV2.git
 cd cobraV2/serial_read
+
+go run .
 go build .
 ```
 
@@ -47,6 +49,8 @@ go build .
 ```shell
 git clone https://www.github.com/foglar/cobraV2.git
 cd cobraV2/monitor
+
+go run .
 go build .
 ```
 
@@ -57,7 +61,7 @@ go build .
 
 ### Sender and Reciever
 
-Upload sender and reciever code on the 2 arduino's
+Upload sender and reciever code on the 2 arduinos
 
 Required library for antenna: [RF24](https://nrf24.github.io/RF24)
 
@@ -183,6 +187,7 @@ $GPGAA,HHMMSS.SS,llll.ll,a,yyyyy.yy,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx
 ### Sender issues
 
 - [x] data stops being transmitted from sender after some short period time
+- [ ] create a version which will send data via **IOT 433MHz LoRa LPWAN SX1278**
 
 ### Monitor app issues
 
@@ -209,3 +214,5 @@ Datasheets, documentation and sources
 - [NRF24L01+ PA/LNA - Datasheet](doc/nrf24lo1-datasheet.pdf)
 - [NRF24L01+ PA/LNA - Demo code](https://img.gme.cz/files/eshop_data/eshop_data/10/775-034/prg.775-034.1.zip)
 - [Pixel2 (go gui library) - Github repository](https://github.com/gopxl/pixel)
+- [LoraWAN Library](https://github.com/mcci-catena/arduino-lmic)
+- All other reference materials are in the *doc/* directory
