@@ -77,14 +77,14 @@ func run() {
 
 		// Update information if it is in the parsed block
 		if _, ok := info[1]; ok {
-			temperature_gui = info[1]
+			temperature_gui = info[4]
 		}
 
 		win.Clear(colornames.Black)
 
 		// Print information to text blocks
-		temperature.WriteString("Temperature: " + temperature_gui)
 		logging_serial.WriteString(data)
+		temperature.WriteString("Temperature: " + temperature_gui)
 
 		// Draw information to screen
 		logging_serial.Draw(win, pixel.IM)

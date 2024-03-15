@@ -63,7 +63,7 @@ go build .
 
 Upload sender and reciever code on the 2 arduinos
 
-Required library for antenna: [RF24](https://nrf24.github.io/RF24)
+Required library for antenna: [RF24](https://nrf24.github.io/RF24). Installation via Arduino-IDE.
 
 ## Overview
 
@@ -71,6 +71,7 @@ Required library for antenna: [RF24](https://nrf24.github.io/RF24)
 `sender_module/` - folder with code for sender, which transmit data to the reciever and save it on the micro sd card (arduino)
 `serial_read/` - read serial input and save it
 `monitor` - folder with code for monitor which will recieve data and print them into the gui application (pc)
+`testing/` - other tools and applications
 
 ### Schema
 
@@ -93,12 +94,12 @@ Required library for antenna: [RF24](https://nrf24.github.io/RF24)
 
 | Identifier | Message Code | Value                            | Verificator |
 | ---------- | ------------ | -------------------------------- | ------------|
-| $          | **1**;       | temperature [degrees of Celsius] | *           |
-| $          | **2**;       | pressure                         | *           |
-| $          | **3**;       | altitude                         | *           |
-| $          | **4**;       | roll                             | *           |
-| $          | **5**;       | pitch                            | *           |
-| $          | **6**;       | yaw                              | *           |
+| $          | **1**;       | roll                             | *           |
+| $          | **2**;       | pitch                            | *           |
+| $          | **3**;       | yaw                              | *           |
+| $          | **4**;       | temperature [degrees of Celsius] | *           |
+| $          | **5**;       | pressure                         | *           |
+| $          | **6**;       | altitude                         | *           |
 | $          | **7**;       | gyroscope x                      | *           |
 | $          | **8**;       | gyroscope y                      | *           |
 | $          | **9**;       | gyroscope z                      | *           |
@@ -188,10 +189,12 @@ $GPGAA,HHMMSS.SS,llll.ll,a,yyyyy.yy,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx
 
 - [x] data stops being transmitted from sender after some short period time
 - [ ] create a version which will send data via **IOT 433MHz LoRa LPWAN SX1278**
+- [ ] create a communication in both ways, `start`, `stop`, `system health check` commands
+- [ ] detection of apogeum and recovery system launch
 
 ### Monitor app issues
 
-- [ ] application crash after some period of time
+- [ ] application crash after some period of time, if don't recive any input from serial ports
 - [ ] gui is not updating until it recieves serial input
 - [ ] parser should be improved
 - [ ] sender code should be improved
@@ -199,6 +202,7 @@ $GPGAA,HHMMSS.SS,llll.ll,a,yyyyy.yy,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx
 - [ ] error messages as windows not terminal
 - [ ] improve readability of code
 - [ ] serial monitor setup port and baudrate
+- [ ] create a gui way of sending commands
 
 ## Sources
 
