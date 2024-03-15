@@ -3,10 +3,12 @@
 #include <RF24.h>
 #include "Waveshare_10Dof-D.h"
 
+//----------------------- CONSTANTS -----------------------//
 bool gbSenserConnectState = false;
 RF24 radio(9, 8);                 // CE, CSN
 const byte address[6] = "00001";  // address through which two modules communicate
 
+//----------------------- SETUP -----------------------//
 void setup() {
   radio.begin();
   radio.openWritingPipe(address);
@@ -28,6 +30,7 @@ void setup() {
   delay(1000);
 }
 
+//----------------------- LOOP -----------------------//
 void loop() {
   IMU_ST_ANGLES_DATA stAngles;
   IMU_ST_SENSOR_DATA stGyroRawData;

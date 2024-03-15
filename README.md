@@ -191,6 +191,7 @@ $GPGAA,HHMMSS.SS,llll.ll,a,yyyyy.yy,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx
 - [ ] create a version which will send data via **IOT 433MHz LoRa LPWAN SX1278**
 - [ ] create a communication in both ways, `start`, `stop`, `system health check` commands
 - [ ] detection of apogeum and recovery system launch
+- [ ] if recieved data for the parameter don't correspond with our expectations, change colour of the value indicator
 
 ### Monitor app issues
 

@@ -1,7 +1,5 @@
 package gui
 
-// TODO: finish reading serial input and parsing it and piping it to the gui component
-
 import (
 	"io"
 	"os"
