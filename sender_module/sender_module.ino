@@ -51,6 +51,8 @@ void loop() {
   float magn[] = {stMagnRawData.s16X, stMagnRawData.s16Y, stMagnRawData.s16Z};
   
   char msg[64];
+
+  // Send angles data
   for (int i = 0; i < 3; i++) {
     char float_str[8];
     dtostrf(angles[i], 6, 2, float_str);
@@ -59,6 +61,7 @@ void loop() {
     radio.write(&msg, sizeof(msg));
   }
 
+  // Send other sensor data
   float sensor_data[][3] = {
     {temperature, pressure, altitude},
     {gyro[0], gyro[1], gyro[2]},
@@ -66,13 +69,15 @@ void loop() {
     {magn[0], magn[1], magn[2]}
   };
 
+  int index = 4;
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 3; j++) {
       char float_str[8];
       dtostrf(sensor_data[i][j], 6, 2, float_str);
-      String str = String("$") + String(i + 4) + ";" + String(float_str) + "*";
+      String str = String("$") + String(index) + ";" + String(float_str) + "*";
       str.toCharArray(msg, sizeof(msg));
       radio.write(&msg, sizeof(msg));
+      index++;
     }
   }
 }
