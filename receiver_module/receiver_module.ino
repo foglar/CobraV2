@@ -19,7 +19,6 @@ void setup() {
 void loop() {
   //Read the data if available in buffer
   if (radio.available()) {
-    Serial.println("#200 Communication is available");
     char text[64] = { 0 };
     radio.read(&text, sizeof(text));
     Serial.println(text);

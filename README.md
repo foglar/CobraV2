@@ -94,12 +94,12 @@ Required library for antenna: [RF24](https://nrf24.github.io/RF24). Installation
 
 | Identifier | Message Code | Value                            | Verificator |
 | ---------- | ------------ | -------------------------------- | ------------|
-| $          | **1**;       | roll                             | *           |
-| $          | **2**;       | pitch                            | *           |
-| $          | **3**;       | yaw                              | *           |
-| $          | **4**;       | temperature [degrees of Celsius] | *           |
-| $          | **5**;       | pressure                         | *           |
-| $          | **6**;       | altitude                         | *           |
+| $          | **1**;       | roll [°]                         | *           |
+| $          | **2**;       | pitch [°]                        | *           |
+| $          | **3**;       | yaw [°]                          | *           |
+| $          | **4**;       | temperature [°C]                 | *           |
+| $          | **5**;       | pressure [hPa]                   | *           |
+| $          | **6**;       | altitude [m]                     | *           |
 | $          | **7**;       | gyroscope x                      | *           |
 | $          | **8**;       | gyroscope y                      | *           |
 | $          | **9**;       | gyroscope z                      | *           |
@@ -191,7 +191,6 @@ $GPGAA,HHMMSS.SS,llll.ll,a,yyyyy.yy,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx
 - [ ] create a version which will send data via **IOT 433MHz LoRa LPWAN SX1278**
 - [ ] create a communication in both ways, `start`, `stop`, `system health check` commands
 - [ ] detection of apogeum and recovery system launch
-- [ ] if recieved data for the parameter don't correspond with our expectations, change colour of the value indicator
 
 ### Monitor app issues
 
@@ -201,9 +200,10 @@ $GPGAA,HHMMSS.SS,llll.ll,a,yyyyy.yy,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx
 - [ ] sender code should be improved
 - [x] gui window
 - [ ] error messages as windows not terminal
-- [ ] improve readability of code
 - [ ] serial monitor setup port and baudrate
 - [ ] create a gui way of sending commands
+- [ ] values change colour if they are not what they should be, or what are expected to be
+- [ ] if recieved data for the parameter don't correspond with our expectations, change colour of the value indicator
 
 ## Sources
 

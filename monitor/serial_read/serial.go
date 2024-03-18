@@ -56,7 +56,7 @@ func inputPort() string {
 	var s_port string
 
 	for {
-		fmt.Print("Enter port ([Enter] - /dev/ttyACM0): ")
+		fmt.Print("Enter port (/dev/ttyACM0): ")
 		fmt.Scanln(&s_port)
 
 		if isPort(s_port) == true {
