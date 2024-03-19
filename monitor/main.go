@@ -114,9 +114,9 @@ func run() {
 		temperature.WriteString("Temperature: " + temperature_gui)
 		pressure.WriteString("Pressure: [hPa] " + pressure_gui)
 		attitude.WriteString("Attitude: [m] " + attitude_gui)
-		roll.WriteString("Roll: " + roll_gui)
-		pitch.WriteString("Pitch: " + pitch_gui)
-		yaw.WriteString("Yaw: " + yaw_gui)
+		roll.WriteString("Roll: [°]" + roll_gui)
+		pitch.WriteString("Pitch: [°]" + pitch_gui)
+		yaw.WriteString("Yaw: [°]" + yaw_gui)
 
 		// Draw information to screen
 		logging_serial.Draw(win, pixel.IM)

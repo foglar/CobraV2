@@ -5,7 +5,7 @@
 - [CobraV2](#cobrav2)
   - [Table of contents](#table-of-contents)
   - [Installation and compilation](#installation-and-compilation)
-    - [Serial monitor tool](#serial-monitor-tool)
+    - [TTY listener](#tty-listener)
     - [Monitoring tool](#monitoring-tool)
     - [Sender and Reciever](#sender-and-reciever)
   - [Overview](#overview)
@@ -30,12 +30,13 @@
 
 ## Installation and compilation
 
-### Serial monitor tool
+### TTY listener
 
 ```shell
 git clone https://www.github.com/foglar/cobraV2.git
 cd cobraV2/serial_read
 
+# run or build the code
 go run .
 go build .
 ```
@@ -50,6 +51,7 @@ go build .
 git clone https://www.github.com/foglar/cobraV2.git
 cd cobraV2/monitor
 
+# run or build the code
 go run .
 go build .
 ```
@@ -58,6 +60,8 @@ go build .
 > For cross-compiling you will need to specify a `CC` to compile c-based libraries for pixel2 library.
 > Example command: `CC=x86_64-w64-mingw32-gcc GOOS=windows GOARCH=amd64 CGO_ENABLED=1 go build .`
 > For more information see: [Pixel2 Wiki | Cross Compiling](https://github.com/gopxl/pixel/wiki/%5BWIP%5D-Cross-Compiling)
+
+![Preview of monitoring tool](doc/application_preview.png)
 
 ### Sender and Reciever
 
@@ -92,23 +96,28 @@ Required library for antenna: [RF24](https://nrf24.github.io/RF24). Installation
 - sender sends data via antenna to reciever in this format **$[code of message];[value]\***
 - in future will be added some other values, like gps and so on
 
-| Identifier | Message Code | Value                            | Verificator |
-| ---------- | ------------ | -------------------------------- | ------------|
-| $          | **1**;       | roll [°]                         | *           |
-| $          | **2**;       | pitch [°]                        | *           |
-| $          | **3**;       | yaw [°]                          | *           |
-| $          | **4**;       | temperature [°C]                 | *           |
-| $          | **5**;       | pressure [hPa]                   | *           |
-| $          | **6**;       | altitude [m]                     | *           |
-| $          | **7**;       | gyroscope x                      | *           |
-| $          | **8**;       | gyroscope y                      | *           |
-| $          | **9**;       | gyroscope z                      | *           |
-| $          | **10**;      | accelerometer x                  | *           |
-| $          | **11**;      | accelerometer y                  | *           |
-| $          | **12**;      | accelerometer z                  | *           |
-| $          | **13**;      | magnitude x                      | *           |
-| $          | **14**;      | magnitude y                      | *           |
-| $          | **15**;      | magnitude z                      | *           |
+| Identifier | Message Code | Value            | Verificator |
+| ---------- | ------------ | ---------------- | ----------- |
+| $          | **1**;       | roll [°]         | *           |
+| $          | **2**;       | pitch [°]        | *           |
+| $          | **3**;       | yaw [°]          | *           |
+| $          | **4**;       | temperature [°C] | *           |
+| $          | **5**;       | pressure [hPa]   | *           |
+| $          | **6**;       | altitude [m]     | *           |
+| $          | **7**;       | gyroscope x      | *           |
+| $          | **8**;       | gyroscope y      | *           |
+| $          | **9**;       | gyroscope z      | *           |
+| $          | **10**;      | accelerometer x  | *           |
+| $          | **11**;      | accelerometer y  | *           |
+| $          | **12**;      | accelerometer z  | *           |
+| $          | **13**;      | magnitude x      | *           |
+| $          | **14**;      | magnitude y      | *           |
+| $          | **15**;      | magnitude z      | *           |
+
+> [!TIP]
+> The acceleration output by the serial port of the sample program is the original value of the register (the value of the register). After this value is divided by 16384, it can be converted into a value in g (gravitational acceleration constant).
+> The angular velocity output by the serial port of the sample program is the original value of the register (the value of the register). After this value is divided by 32.8, it can be converted into a value in dps (angle/second).
+> The value of the magnetic sensor output by the serial port of the sample program is the original value of the register (that is, the value of the register). This value is multiplied by 0.15 to convert it into a value in μT (10-6 Tesla).
 
 ## Modules
 
@@ -129,10 +138,10 @@ Required library for antenna: [RF24](https://nrf24.github.io/RF24). Installation
 
 $GPGAA,HHMMSS.SS,llll.ll,a,yyyyy.yy,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx
 
-| Sentence Identifier | Time | Latitude | Longtitude | Fix Quality | Number of Satellites | Horizontal Dilution of Precision | Altitude | Height of geoid above WGS84 ellipsoid | Time since last DGPS update | DGPS reference station id | Checksum |
-| ------ | --------- | --------- | ---------- | - | -- | --- | ----- | ----- | --- | ---- | --- |
-| $GPGAA | HHMMSS.SS | llll.ll a | yyyyy.yy a | x | xx | x.x | x.x M | x.x M | x.x | xxxx | *hh |
-| $GPGAA | 170834 | 4124.8963, N | 08151.6838, W | 1 | 05 | 1.5 | 280.2, M | -34.0, M | blank | blank | *75 |
+| Sentence Identifier | Time      | Latitude     | Longtitude    | Fix Quality | Number of Satellites | Horizontal Dilution of Precision | Altitude | Height of geoid above WGS84 ellipsoid | Time since last DGPS update | DGPS reference station id | Checksum |
+| ------------------- | --------- | ------------ | ------------- | ----------- | -------------------- | -------------------------------- | -------- | ------------------------------------- | --------------------------- | ------------------------- | -------- |
+| $GPGAA              | HHMMSS.SS | llll.ll a    | yyyyy.yy a    | x           | xx                   | x.x                              | x.x M    | x.x M                                 | x.x                         | xxxx                      | *hh      |
+| $GPGAA              | 170834    | 4124.8963, N | 08151.6838, W | 1           | 05                   | 1.5                              | 280.2, M | -34.0, M                              | blank                       | blank                     | *75      |
 
 > [!TIP]
 > Fix Quality:
@@ -192,6 +201,7 @@ $GPGAA,HHMMSS.SS,llll.ll,a,yyyyy.yy,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx
 - [ ] create a communication in both ways, `start`, `stop`, `system health check` commands
 - [ ] detection of apogeum and recovery system launch
 - [ ] add timestamps and save everything to sd card
+- [ ] add gps
 
 ### Monitor app issues
 
@@ -206,6 +216,8 @@ $GPGAA,HHMMSS.SS,llll.ll,a,yyyyy.yy,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx
 - [ ] values change colour if they are not what they should be, or what are expected to be
 - [ ] if recieved data for the parameter don't correspond with our expectations, change colour of the value indicator
 - [ ] save all recieved data
+- [ ] special characters
+- [ ] don't hide the text on refresh
 
 ## Sources
 

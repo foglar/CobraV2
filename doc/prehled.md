@@ -45,7 +45,7 @@
 
 - [x] Workshop 1 - 9.-10. března
   - Představení, Pravidla, Zkušenosti
-- [ ] Workshop 2 - 16.-17. března
+- [x] Workshop 2 - 16.-17. března
   - Práce v programu OpenRocket
 - [ ] Workshop 3 - 23.-24. března
   - Zážitky, úspěchy i překážky

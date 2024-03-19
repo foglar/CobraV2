@@ -59,6 +59,7 @@ void loop() {
     String str = String("$") + String(i + 1) + ";" + String(float_str) + "*";
     str.toCharArray(msg, sizeof(msg));
     radio.write(&msg, sizeof(msg));
+    Serial.println(msg);
   }
 
   // Send other sensor data
@@ -77,6 +78,7 @@ void loop() {
       String str = String("$") + String(index) + ";" + String(float_str) + "*";
       str.toCharArray(msg, sizeof(msg));
       radio.write(&msg, sizeof(msg));
+      Serial.println(msg);
       index++;
     }
   }
