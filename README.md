@@ -61,7 +61,7 @@ go build .
 > Example command: `CC=x86_64-w64-mingw32-gcc GOOS=windows GOARCH=amd64 CGO_ENABLED=1 go build .`
 > For more information see: [Pixel2 Wiki | Cross Compiling](https://github.com/gopxl/pixel/wiki/%5BWIP%5D-Cross-Compiling)
 
-![Preview of monitoring tool](doc/application_preview.png)
+![Preview of monitoring tool](/doc/application_preview_hyprland.png)
 
 ### Sender and Reciever
 
@@ -115,9 +115,9 @@ Required library for antenna: [RF24](https://nrf24.github.io/RF24). Installation
 | $          | **15**;      | magnitude z      | *           |
 
 > [!TIP]
-> The acceleration output by the serial port of the sample program is the original value of the register (the value of the register). After this value is divided by 16384, it can be converted into a value in g (gravitational acceleration constant).
-> The angular velocity output by the serial port of the sample program is the original value of the register (the value of the register). After this value is divided by 32.8, it can be converted into a value in dps (angle/second).
-> The value of the magnetic sensor output by the serial port of the sample program is the original value of the register (that is, the value of the register). This value is multiplied by 0.15 to convert it into a value in μT (10-6 Tesla).
+> The **acceleration output** by the serial port of the sample program is the original value of the register (the value of the register). After this **value is divided by 16384**, it can be **converted** into a **value in g (gravitational acceleration constant)**.
+> The **angular velocity output** by the serial port of the sample program is the original value of the register (the value of the register). After this **value is divided by 32.8**, it can be converted into a **value in dps (angle/second)**.
+> The value of the **magnetic sensor output** by the serial port of the sample program is the original value of the register (that is, the value of the register). This **value is multiplied by 0.15** to convert it into a **value in μT (10-6 Tesla)**. [Reference](https://www.waveshare.com/wiki/Template:10_DOF_IMU_Sensor_D_Arduino_Guide#Serial_output_data_meaning)
 
 ## Modules
 
