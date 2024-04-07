@@ -32,7 +32,7 @@
 
 ### TTY listener
 
-```shell
+```bash
 git clone https://www.github.com/foglar/cobraV2.git
 cd cobraV2/serial_read
 
@@ -47,7 +47,7 @@ go build .
 
 ### Monitoring tool
 
-```shell
+```bash
 git clone https://www.github.com/foglar/cobraV2.git
 cd cobraV2/monitor
 
@@ -65,9 +65,33 @@ go build .
 
 ### Sender and Reciever
 
-Upload sender and reciever code on the 2 arduinos
+Upload sender and reciever code on the 2 arduinos.
 
-Required library for antenna: [RF24](https://nrf24.github.io/RF24). Installation via Arduino-IDE.
+> [!NOTE]
+> Uplading can be done via Arduino IDE or via arduino-cli terminal tool.
+> Install arduino-ide or arduino-cli on your device, connect the arduino via usb,
+> and upload the code.
+
+#### Uplading via arduino-cli
+
+To upload via arduino-cli connect arduino board to the computer.
+
+- To get boards fbqn run `arduino-cli board list` command
+- Then compile your code with `arduino-cli compile -b "fqbn" "path to script"`
+- Finnaly upload your code to arduino with `arduino-cli upload -b "fqbn" -p "port" "path to script"`
+
+```bash
+$ arduino-cli board list
+arduino-cli board list
+Port         Protocol Type              Board Name          FQBN                          Core
+/dev/ttyACM0 serial   Serial Port (USB) Arduino UNO R4 WiFi arduino:renesas_uno:unor4wifi arduino:renesas_uno
+
+$ arduino-cli compile -b arduino:renesas_uno:unor4wifi sender_module/
+
+$ arduino-cli upload -b arduino:renesas_uno:unor4wifi -p /dev/ttyACM0 sender_module/
+```
+
+Required library for antenna: [RF24](https://nrf24.github.io/RF24), with arduino-cli you can install it with ```arduino-cli lib install RF24``` or via arduino-ide.
 
 ## Overview
 
