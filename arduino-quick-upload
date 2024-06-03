@@ -1,0 +1,45 @@
+#!/bin/bash
+
+source "arduino-ports-enable"
+
+
+# Check if a command-line argument is provided and if the path exists
+if [ "$#" -eq 1 ] && [ -d "$1" ]; then
+    project_path="$1"
+else
+    # Prompt the user for the project path
+    read -p "Enter the path to your Arduino project directory: " project_path
+
+    # Validate the project path
+    while [ ! -d "$project_path" ]; do
+        echo "Invalid path or path does not exist."
+        read -p "Please enter a valid path to your Arduino project DIRECTORY: " project_path
+    done
+fi
+
+# Get the list of connected Arduinos
+board_list=$(arduino-cli board list)
+
+# Count the number of connected Arduinos
+num_arduinos=$(echo "$board_list" | grep -c "Arduino")
+
+if [ "$num_arduinos" -eq 0 ]; then
+    echo "No Arduino boards found."
+    exit 1
+elif [ "$num_arduinos" -eq 1 ]; then
+    # If only one Arduino is connected, use it
+    arduino_port=$(echo "$board_list" | grep -oE '/dev/ttyACM[0-9]+')
+    board_type=$(echo "$board_list"| grep "$arduino_port" | awk '{print $(NF-1)}')
+else
+    # If multiple Arduinos are connected, ask the user to select one
+    echo "Multiple Arduino boards found:"
+    echo "$board_list" | tail -n +2 | awk '{print $1, $NF}'
+    read -p "Please enter the port of the Arduino you want to upload to: " arduino_port
+    board_type=$(echo "$board_list" | grep "$arduino_port" | awk '{print $(NF-1)}'
+)
+fi
+
+# Compile and upload the project to the selected Arduino
+arduino-cli compile -b "$board_type" "$project_path"
+arduino-cli upload ./ -p "$arduino_port" -b "$board_type"
+

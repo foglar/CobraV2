@@ -3,7 +3,7 @@
 ## Stages of flight
 
 1. Preflight - Remove before flight button or smthing like that
-    - no data sending, blocked parachute ejection, all systems down
+    - no communication, blocked parachute ejection, all systems down
 2. Ready - Signal from groundstation
     - sys check (modules calibration, battery check, atd...), blocked parachute ejection, wait for launch pin removed, only send data, do not save them
 3. Launch - Removed pin from the rocket
@@ -11,7 +11,7 @@
 4. Apogee - Detected that rocket is in apogee with accelerometer
     - parachute ejection, all systems working, gps check and height check
 5. Return - Rocket has no velocity
-    - all unneeded systems shutdown/sleep, buzz on, gps sending location, battery check, turn off gyro and accelerometer
+    - all not needed systems shutdown/sleep, buzz on, gps sending location, battery check, turn off gyro and accelerometer
 
 ## Modules
 
@@ -26,3 +26,7 @@
 
 - Ejection mechanism
 - PCB for our computer
+- force parachute ejection
+- if cable connected return back to ready stage
+- send signal of listening
+- wait for recieve
