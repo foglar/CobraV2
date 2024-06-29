@@ -133,7 +133,7 @@ void ready_stage()
   //   Serial.println("# Error opening file");
   // }
 
-  Serial.print("Accelerometer sample rate = ");
+  Serial.print("# Accelerometer sample rate = ");
   Serial.print(IMU.accelerationSampleRate());
   Serial.println(" Hz");
 
@@ -183,8 +183,9 @@ void arm_stage()
 
 void ascent_stage()
 {
-  Serial.println("ASCENT Stage");
+  Serial.println("# ASCENT Stage");
   unsigned long StartTime = millis();
+  int FailOrientationCounter = 0;
   while (true)
   {
     unsigned long CurrentTime = millis();
@@ -205,33 +206,48 @@ void ascent_stage()
     {
       x = 100 * x;
       degreesX = map(x, 0, 97, 0, 90);
+      Serial.print("# Tilting up ");
       Serial.print(degreesX);
+      Serial.println("  degrees");
     }
+
     if (x < -0.1)
     {
       x = 100 * x;
       degreesX = map(x, 0, -100, 0, 90);
+      Serial.print("# Tilting down ");
       Serial.print(degreesX);
+      Serial.println("  degrees");
     }
+
     if (y > 0.1)
     {
       y = 100 * y;
       degreesY = map(y, 0, 97, 0, 90);
+      Serial.print("Tilting left ");
       Serial.print(degreesY);
+      Serial.println("  degrees");
     }
+
     if (y < -0.1)
     {
       y = 100 * y;
       degreesY = map(y, 0, -100, 0, 90);
+      Serial.print("# Tilting right ");
       Serial.print(degreesY);
+      Serial.println("  degrees");
     }
 
-    if (degreesX < 50)
+    if (((y < -0.1 || y > 0.1) && degreesY > 40) || (x < -0.1 && degreesX < 50) || (x > 0.1))
     {
-      Risk_Counter++;
+      FailOrientationCounter++;
+    }
+    else
+    {
+      FailOrientationCounter = 0;
     }
 
-    if (ElapsedTime > 9000)
+    if ((ElapsedTime > 9000) || (FailOrientationCounter > 20))
     {
       break;
     }
