@@ -1,0 +1,4 @@
+{
+    "board": "arduino:mbed_nano:nano33ble",
+    "sketch": "sender_module_final/sender_module_final.ino"
+}

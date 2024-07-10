@@ -6,15 +6,14 @@
 #include <RF24.h>
 
 // Define pin numbers for modules
-const int NRF_CE_PIN = 9;
-const int NRF_CS_PIN = 8;
 const byte address[6] = "00001";
 
 const int BUZZER_PIN = 2;
 const int SERVO_A_PIN = 3;
+const int CHIP_SELECT = 4;
 const int SERVO_B_PIN = 5;
-
-int plusThreshold = 40, minusThreshold = -40;
+const int NRF_CS_PIN = 8;
+const int NRF_CE_PIN = 9;
 
 // Create objects for modules
 RF24 radio(NRF_CE_PIN, NRF_CS_PIN);
@@ -77,7 +76,6 @@ void loop()
   }
 }
 
-bool isButtonPressed(int buttonPin) { return digitalRead(buttonPin) == LOW; }
 void beep()
 {
   digitalWrite(BUZZER_PIN, HIGH);
@@ -88,6 +86,7 @@ void beep()
 void ready_stage()
 {
   Serial.println("# READY stage");
+  analogWrite(LED_BUILTIN, HIGH);
   beep();
 
   if (!IMU.begin())
@@ -105,37 +104,43 @@ void ready_stage()
   // radio.write(&msg, sizeof(msg));
   // Serial.println("# Success nRF24L01 init");
 
-  //// SD card
-  // if (!SD.begin(4))
+  // SD card
+  //if (!SD.begin(CHIP_SELECT))
   //{
-  //   Serial.println("# Fail SD module init");
-  // }
-  // else
+  //  Serial.println("# Fail SD module init");
+  //}
+  //else
   //{
-  //   Serial.println("# Success SD module init");
-  // }
-  // if (SD.exists("data.txt"))
+  //  Serial.println("# Success SD module init");
+  //}
+//
+  //if (SD.exists("data.txt"))
   //{
-  //   Serial.println("# File exists");
-  // }
-  // else
+  //  Serial.println("# File exists");
+  //}
+  //else
   //{
-  //   Serial.println("# File does not exist");
-  //   dataFile = SD.open("data.txt", FILE_WRITE);
-  // }
-  // if (dataFile)
+  //  Serial.println("# File does not exist");
+  //  dataFile = SD.open("data.txt", FILE_WRITE);
+  //}
+//
+  //if (dataFile)
   //{
-  //   Serial.println("# File opened");
-  //   dataFile.println("# CobraV2 flight data");
-  // }
-  // else
+  //  Serial.println("# File opened");
+  //  dataFile.println("# CobraV2 flight data");
+  //}
+  //else
   //{
-  //   Serial.println("# Error opening file");
-  // }
+  //  Serial.println("# Error opening file");
+  //}
 
   Serial.print("# Accelerometer sample rate = ");
   Serial.print(IMU.accelerationSampleRate());
   Serial.println(" Hz");
+
+  //dataFile.print("# Accelerometer sample rate = ");
+  //dataFile.println(IMU.accelerationSampleRate());
+  //dataFile.close();
 
   current_stage = ARM;
 }
@@ -154,12 +159,22 @@ void arm_stage()
   int counter = 0;
   float x, y, z;
 
+  bool toggle = false;
+  //dataFile = SD.open("data.txt", FILE_WRITE);
+  //dataFile.println("# ARM stage");
   while (true)
   {
     if (IMU.accelerationAvailable())
     {
       IMU.readAcceleration(x, y, z);
       Serial.println(x);
+
+      //dataFile.print(x);
+      //dataFile.print(" ");
+      //dataFile.print(y);
+      //dataFile.print(" ");
+      //dataFile.println(z);
+
       if (x > 1)
       {
         Serial.println("# Launch Detect");
@@ -171,14 +186,26 @@ void arm_stage()
       }
     }
 
-    if (counter > 10)
+    if (counter < 15)
     {
       Serial.println("# Launching");
+      //dataFile.println("# Launching");
       break;
     }
+
+    if (toggle)
+    {
+      digitalWrite(LED_BUILTIN, HIGH);
+    }
+    else
+    {
+      digitalWrite(LED_BUILTIN, LOW);
+    }
+    toggle = !toggle;
   }
 
   current_stage = ASCENT;
+  //dataFile.close();
 }
 
 void ascent_stage()
@@ -186,91 +213,51 @@ void ascent_stage()
   Serial.println("# ASCENT Stage");
   unsigned long StartTime = millis();
   int FailOrientationCounter = 0;
+  //File dataFile = SD.open("data.txt", FILE_WRITE);
+  //dataFile.println("# ASCENT stage");
   while (true)
   {
     unsigned long CurrentTime = millis();
     unsigned long ElapsedTime = CurrentTime - StartTime;
     Serial.println(ElapsedTime);
 
-    float x, y, z;
-
-    if (IMU.accelerationAvailable())
+    if (IMU.gyroscopeAvailable())
     {
-      IMU.readAcceleration(x, y, z);
+      float x, y, z;
+      IMU.readGyroscope(x, y, z);
     }
 
-    int degreesX = 0;
-    int degreesY = 0;
-
-    if (x > 0.1)
+    if ((ElapsedTime > 9000))
     {
-      x = 100 * x;
-      degreesX = map(x, 0, 97, 0, 90);
-      Serial.print("# Tilting up ");
-      Serial.print(degreesX);
-      Serial.println("  degrees");
-    }
-
-    if (x < -0.1)
-    {
-      x = 100 * x;
-      degreesX = map(x, 0, -100, 0, 90);
-      Serial.print("# Tilting down ");
-      Serial.print(degreesX);
-      Serial.println("  degrees");
-    }
-
-    if (y > 0.1)
-    {
-      y = 100 * y;
-      degreesY = map(y, 0, 97, 0, 90);
-      Serial.print("Tilting left ");
-      Serial.print(degreesY);
-      Serial.println("  degrees");
-    }
-
-    if (y < -0.1)
-    {
-      y = 100 * y;
-      degreesY = map(y, 0, -100, 0, 90);
-      Serial.print("# Tilting right ");
-      Serial.print(degreesY);
-      Serial.println("  degrees");
-    }
-
-    if (((y < -0.1 || y > 0.1) && degreesY > 40) || (x < -0.1 && degreesX < 50) || (x > 0.1))
-    {
-      FailOrientationCounter++;
-    }
-    else
-    {
-      FailOrientationCounter = 0;
-    }
-
-    if ((ElapsedTime > 9000) || (FailOrientationCounter > 20))
-    {
+      dataFile.println("# Apogee detected by time");
       break;
     }
   }
 
   current_stage = DESCENT;
+  //dataFile.close();
 }
 
 void descent_stage()
 {
   Serial.println("# DESCENT stage");
+  //File dataFile = SD.open("data.txt", FILE_WRITE);
+  //dataFile.println("# DESCENT stage");
   for (int pos = 0; pos <= 150; pos += 1)
   {
     // in steps of 1 degree
     A.write(pos);
     delay(1);
+    Serial.println(pos);
   }
 
   for (int pos = 90; pos >= 0; pos -= 1)
   {
     B.write(pos);
     delay(1);
+    Serial.println(pos);
   }
+  Serial.println("# Parachute deployed");
 
   unsigned long StartTime = millis();
   while (true)
@@ -280,10 +267,12 @@ void descent_stage()
 
     if (ElapsedTime > 300000)
     {
+      //dataFile.println("# Landing detected");
       break;
     }
   }
   current_stage = LANDED;
+  //dataFile.close();
 }
 
 void landed_stage()

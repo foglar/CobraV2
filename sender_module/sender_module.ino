@@ -1,22 +1,21 @@
-#include <SoftwareSerial.h>
 #include <SPI.h>
 #include <SD.h>
 
 #include <nRF24L01.h>
 #include <RF24.h>
-#include <Adafruit_INA219.h>
+//#include <Adafruit_INA219.h>
 
 #include "DEV_Config.h"
-#include "L76X.h"
-#include "Waveshare_10Dof-D.h"
+//#include "L76X.h"
+//#include "Waveshare_10Dof-D.h"
 
 // Define pin numbers for modules
 const int NRF_CE_PIN = 9;
 const int NRF_CS_PIN = 8;
 const byte address[6] = "00001";
 
-const int GPS_TX_PIN = 0;
-const int GPS_RX_PIN = 1;
+//const int GPS_TX_PIN = 0;
+//const int GPS_RX_PIN = 1;
 
 //const String INA219_SDA_PIN = "A4";
 //const String INA219_SCL_PIN = "A5";
@@ -27,7 +26,7 @@ const int LAUNCH_STAGE_PIN = 6;
 
 // Create objects for modules
 RF24 radio(NRF_CE_PIN, NRF_CS_PIN);
-GNRMC GPS1;
+//GNRMC GPS1;
 //Adafruit_INA219 ina219;
 File dataFile;
 
@@ -88,7 +87,7 @@ void ready_stage() {
       counter = 0;
     } else {
       counter += 1;
-      delay(300)
+      delay(300);
     }
 
     if (counter == 10) {
@@ -118,24 +117,24 @@ void arm_stage() {
   }
   
   // GPS
-  DEV_Set_Baudrate(9600);
-  DEV_Delay_ms(500);
+  //DEV_Set_Baudrate(9600);
+  //DEV_Delay_ms(500);
   
   // IMU
-  IMU_EN_SENSOR_TYPE enMotionSensorType, enPressureType;
-  imuInit(&enMotionSensorType, &enPressureType);
-  if (IMU_EN_SENSOR_TYPE_ICM20948 == enMotionSensorType) {
-    Serial.println("# Success ICM-20948 init");
-    Serial.println(IMU_EN_SENSOR_TYPE_ICM20948);
-  } else {
-    Serial.println("# Fail ICM-20948 init");
-  }
-  if (IMU_EN_SENSOR_TYPE_BMP280 == enPressureType) {
-    Serial.println("# Success BMP280 init");
-  } else {
-    Serial.println("# Fail BMP280 init");
-    Serial.println(enPressureType);
-  }
+  //IMU_EN_SENSOR_TYPE enMotionSensorType, enPressureType;
+  //imuInit(&enMotionSensorType, &enPressureType);
+  //if (IMU_EN_SENSOR_TYPE_ICM20948 == enMotionSensorType) {
+  //  Serial.println("# Success ICM-20948 init");
+  //  Serial.println(IMU_EN_SENSOR_TYPE_ICM20948);
+  //} else {
+  //  Serial.println("# Fail ICM-20948 init");
+  //}
+  //if (IMU_EN_SENSOR_TYPE_BMP280 == enPressureType) {
+  //  Serial.println("# Success BMP280 init");
+  //} else {
+  //  Serial.println("# Fail BMP280 init");
+  //  Serial.println(enPressureType);
+  //}
   
   // INA219
   // if (!ina219.begin()) {
@@ -184,7 +183,7 @@ void arm_stage() {
       counter = 0;
     } else {
       counter += 1;
-      delay(300)
+      delay(300);
     }
 
     if (counter == 10) {
@@ -217,20 +216,20 @@ void landed_stage() {
   // Turn off gyro and accelerometer
 }
 
-float getBatteryLevel() {
-  // Read bus voltage from INA219
-  float busVoltage = ina219.getBusVoltage_V();
-
-  // Assuming fully charged battery voltage is 4.2V and empty is 3.0V
-  float maxVoltage = 4.2;
-  float minVoltage = 3.0;
-
-  // Map the bus voltage to a battery level percentage
-  float batteryLevel = map(busVoltage, minVoltage, maxVoltage, 0, 100);
-
-  // Constrain the battery level to be within 0 and 100
-  batteryLevel = constrain(batteryLevel, 0, 100);
-
-  return batteryLevel;
-}
+//float getBatteryLevel() {
+//  // Read bus voltage from INA219
+//  float busVoltage = ina219.getBusVoltage_V();
+//
+//  // Assuming fully charged battery voltage is 4.2V and empty is 3.0V
+//  float maxVoltage = 4.2;
+//  float minVoltage = 3.0;
+//
+//  // Map the bus voltage to a battery level percentage
+//  float batteryLevel = map(busVoltage, minVoltage, maxVoltage, 0, 100);
+//
+//  // Constrain the battery level to be within 0 and 100
+//  batteryLevel = constrain(batteryLevel, 0, 100);
+//
+//  return batteryLevel;
+//}
 

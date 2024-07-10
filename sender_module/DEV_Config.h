@@ -1,7 +1,6 @@
 #ifndef _DEV_CONFIG_H_
 #define _DEV_CONFIG_H_
 
-#include <SoftwareSerial.h>
 #include <avr/pgmspace.h>
 #include <stdint.h>
 #include <stdio.h>
